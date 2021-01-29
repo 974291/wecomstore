@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINcode128;
 
@@ -32,11 +30,11 @@ class CINgs1128 extends CINcode128 {
     private $strictMode;
     private $allowsUnknownIdentifier;
     private $noLengthLimit;
-    private $identifiersId = [];
-    private $identifiersContent = [];
-    private $identifiersAi = [];
-    private $customLabelText = false;
-
+    private $identifiersId = array();
+    private $identifiersContent = array();
+    private $identifiersAi = array();
+    private $customLabelText=false;
+    
     /**
      * Constructors
      *
@@ -55,118 +53,118 @@ class CINgs1128 extends CINcode128 {
         KIND_OF_DATA:        NUMERIC , ALPHA_NUMERIC or DATE_YYMMDD
         CHECKSUM:            bool (true / false)
         */
-        $this->identifiersAi = [
-            '00'   => [self::NUMERIC, 18, 18, true],
-            '01'   => [self::NUMERIC, 14, 14, true],
-            '02'   => [self::NUMERIC, 14, 14, true],
-            '10'   => [self::ALPHA_NUMERIC, 1, 20, false],
-            '11'   => [self::DATE_YYMMDD, 6, 6, false],
-            '12'   => [self::DATE_YYMMDD, 6, 6, false],
-            '13'   => [self::DATE_YYMMDD, 6, 6, false],
-            '15'   => [self::DATE_YYMMDD, 6, 6, false],
-            '17'   => [self::DATE_YYMMDD, 6, 6, false],
-            '20'   => [self::NUMERIC, 2, 2, false],
-            '21'   => [self::ALPHA_NUMERIC, 1, 20, false],
-            '240'  => [self::ALPHA_NUMERIC, 1, 30, false],
-            '241'  => [self::ALPHA_NUMERIC, 1, 30, false],
-            '250'  => [self::ALPHA_NUMERIC, 1, 30, false],
-            '251'  => [self::ALPHA_NUMERIC, 1, 30, false],
-            '253'  => [self::NUMERIC, 14, 30, false],
-            '30'   => [self::NUMERIC, 1, 8, false],
-            '310y' => [self::NUMERIC, 6, 6, false],
-            '311y' => [self::NUMERIC, 6, 6, false],
-            '312y' => [self::NUMERIC, 6, 6, false],
-            '313y' => [self::NUMERIC, 6, 6, false],
-            '314y' => [self::NUMERIC, 6, 6, false],
-            '315y' => [self::NUMERIC, 6, 6, false],
-            '316y' => [self::NUMERIC, 6, 6, false],
-            '320y' => [self::NUMERIC, 6, 6, false],
-            '321y' => [self::NUMERIC, 6, 6, false],
-            '322y' => [self::NUMERIC, 6, 6, false],
-            '323y' => [self::NUMERIC, 6, 6, false],
-            '324y' => [self::NUMERIC, 6, 6, false],
-            '325y' => [self::NUMERIC, 6, 6, false],
-            '326y' => [self::NUMERIC, 6, 6, false],
-            '327y' => [self::NUMERIC, 6, 6, false],
-            '328y' => [self::NUMERIC, 6, 6, false],
-            '329y' => [self::NUMERIC, 6, 6, false],
-            '330y' => [self::NUMERIC, 6, 6, false],
-            '331y' => [self::NUMERIC, 6, 6, false],
-            '332y' => [self::NUMERIC, 6, 6, false],
-            '333y' => [self::NUMERIC, 6, 6, false],
-            '334y' => [self::NUMERIC, 6, 6, false],
-            '335y' => [self::NUMERIC, 6, 6, false],
-            '336y' => [self::NUMERIC, 6, 6, false],
-            '337y' => [self::NUMERIC, 6, 6, false],
-            '340y' => [self::NUMERIC, 6, 6, false],
-            '341y' => [self::NUMERIC, 6, 6, false],
-            '342y' => [self::NUMERIC, 6, 6, false],
-            '343y' => [self::NUMERIC, 6, 6, false],
-            '344y' => [self::NUMERIC, 6, 6, false],
-            '345y' => [self::NUMERIC, 6, 6, false],
-            '346y' => [self::NUMERIC, 6, 6, false],
-            '347y' => [self::NUMERIC, 6, 6, false],
-            '348y' => [self::NUMERIC, 6, 6, false],
-            '349y' => [self::NUMERIC, 6, 6, false],
-            '350y' => [self::NUMERIC, 6, 6, false],
-            '351y' => [self::NUMERIC, 6, 6, false],
-            '352y' => [self::NUMERIC, 6, 6, false],
-            '353y' => [self::NUMERIC, 6, 6, false],
-            '354y' => [self::NUMERIC, 6, 6, false],
-            '355y' => [self::NUMERIC, 6, 6, false],
-            '356y' => [self::NUMERIC, 6, 6, false],
-            '357y' => [self::NUMERIC, 6, 6, false],
-            '360y' => [self::NUMERIC, 6, 6, false],
-            '361y' => [self::NUMERIC, 6, 6, false],
-            '362y' => [self::NUMERIC, 6, 6, false],
-            '363y' => [self::NUMERIC, 6, 6, false],
-            '364y' => [self::NUMERIC, 6, 6, false],
-            '365y' => [self::NUMERIC, 6, 6, false],
-            '366y' => [self::NUMERIC, 6, 6, false],
-            '367y' => [self::NUMERIC, 6, 6, false],
-            '368y' => [self::NUMERIC, 6, 6, false],
-            '369y' => [self::NUMERIC, 6, 6, false],
-            '37'   => [self::NUMERIC, 1, 8, false],
-            '390y' => [self::NUMERIC, 1, 15, false],
-            '391y' => [self::NUMERIC, 4, 18, false],
-            '392y' => [self::NUMERIC, 1, 15, false],
-            '393y' => [self::NUMERIC, 4, 18, false],
-            '400'  => [self::ALPHA_NUMERIC, 1, 30, false],
-            '401'  => [self::ALPHA_NUMERIC, 1, 30, false],
-            '402'  => [self::NUMERIC, 17, 17, false],
-            '403'  => [self::ALPHA_NUMERIC, 1, 30, false],
-            '410'  => [self::NUMERIC, 13, 13, true],
-            '411'  => [self::NUMERIC, 13, 13, true],
-            '412'  => [self::NUMERIC, 13, 13, true],
-            '413'  => [self::NUMERIC, 13, 13, true],
-            '414'  => [self::NUMERIC, 13, 13, true],
-            '415'  => [self::NUMERIC, 13, 13, true],
-            '420'  => [self::ALPHA_NUMERIC, 1, 20, false],
-            '421'  => [self::ALPHA_NUMERIC, 4, 12, false],
-            '422'  => [self::NUMERIC, 3, 3, false],
-            '8001' => [self::NUMERIC, 14, 14, false],
-            '8002' => [self::ALPHA_NUMERIC, 1, 20, false],
-            '8003' => [self::ALPHA_NUMERIC, 15, 30, false],
-            '8004' => [self::ALPHA_NUMERIC, 1, 30, false],
-            '8005' => [self::NUMERIC, 6, 6, false],
-            '8006' => [self::NUMERIC, 18, 18, false],
-            '8007' => [self::ALPHA_NUMERIC, 1, 30, false],
-            '8018' => [self::NUMERIC, 18, 18, false],
-            '8020' => [self::ALPHA_NUMERIC, 1, 25, false],
-            '8100' => [self::NUMERIC, 6, 6, false],
-            '8101' => [self::NUMERIC, 10, 10, false],
-            '8102' => [self::NUMERIC, 2, 2, false],
-            '90'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '91'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '92'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '93'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '94'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '95'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '96'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '97'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '98'   => [self::ALPHA_NUMERIC, 1, 30, false],
-            '99'   => [self::ALPHA_NUMERIC, 1, 30, false]
-        ];
+        $this->identifiersAi = array(
+        '00'    =>    array(self::NUMERIC,          18, 18, true),
+        '01'    =>    array(self::NUMERIC,          14, 14, true),
+        '02'    =>    array(self::NUMERIC,          14, 14, true),
+        '10'    =>    array(self::ALPHA_NUMERIC,    1,  20, false),
+        '11'    =>    array(self::DATE_YYMMDD,      6,  6,  false),
+        '12'    =>    array(self::DATE_YYMMDD,      6,  6,  false),
+        '13'    =>    array(self::DATE_YYMMDD,      6,  6,  false),
+        '15'    =>    array(self::DATE_YYMMDD,      6,  6,  false),
+        '17'    =>    array(self::DATE_YYMMDD,      6,  6,  false),
+        '20'    =>    array(self::NUMERIC,          2,  2,  false),
+        '21'    =>    array(self::ALPHA_NUMERIC,    1,  20, false),
+        '240'   =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '241'   =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '250'   =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '251'   =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '253'   =>    array(self::NUMERIC,          14, 30, false),
+        '30'    =>    array(self::NUMERIC,          1,  8,  false),
+        '310y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '311y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '312y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '313y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '314y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '315y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '316y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '320y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '321y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '322y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '323y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '324y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '325y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '326y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '327y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '328y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '329y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '330y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '331y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '332y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '333y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '334y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '335y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '336y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '337y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '340y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '341y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '342y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '343y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '344y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '345y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '346y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '347y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '348y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '349y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '350y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '351y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '352y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '353y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '354y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '355y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '356y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '357y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '360y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '361y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '362y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '363y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '364y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '365y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '366y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '367y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '368y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '369y'  =>    array(self::NUMERIC,          6,  6,  false),
+        '37'    =>    array(self::NUMERIC,          1,  8,  false),
+        '390y'  =>    array(self::NUMERIC,          1,  15, false),
+        '391y'  =>    array(self::NUMERIC,          4,  18, false),
+        '392y'  =>    array(self::NUMERIC,          1,  15, false),
+        '393y'  =>    array(self::NUMERIC,          4,  18, false),
+        '400'   =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '401'   =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '402'   =>    array(self::NUMERIC,          17, 17, false),
+        '403'   =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '410'   =>    array(self::NUMERIC,          13, 13, true),
+        '411'   =>    array(self::NUMERIC,          13, 13, true),
+        '412'   =>    array(self::NUMERIC,          13, 13, true),
+        '413'   =>    array(self::NUMERIC,          13, 13, true),
+        '414'   =>    array(self::NUMERIC,          13, 13, true),
+        '415'   =>    array(self::NUMERIC,          13, 13, true),
+        '420'   =>    array(self::ALPHA_NUMERIC,    1,  20, false),
+        '421'   =>    array(self::ALPHA_NUMERIC,    4,  12, false),
+        '422'   =>    array(self::NUMERIC,          3,  3,  false),
+        '8001'  =>    array(self::NUMERIC,          14, 14, false),
+        '8002'  =>    array(self::ALPHA_NUMERIC,    1,  20, false),
+        '8003'  =>    array(self::ALPHA_NUMERIC,    15, 30, false),
+        '8004'  =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '8005'  =>    array(self::NUMERIC,          6,  6,  false),
+        '8006'  =>    array(self::NUMERIC,          18, 18, false),
+        '8007'  =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '8018'  =>    array(self::NUMERIC,          18, 18, false),
+        '8020'  =>    array(self::ALPHA_NUMERIC,    1,  25, false),
+        '8100'  =>    array(self::NUMERIC,          6,  6,  false),
+        '8101'  =>    array(self::NUMERIC,          10, 10, false),
+        '8102'  =>    array(self::NUMERIC,          2,  2,  false),
+        '90'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '91'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '92'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '93'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '94'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '95'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '96'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '97'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '98'    =>    array(self::ALPHA_NUMERIC,    1,  30, false),
+        '99'    =>    array(self::ALPHA_NUMERIC,    1,  30, false)
+        );
 
         $this->setStrictMode(true);
         $this->setTilde(true);
@@ -239,7 +237,7 @@ class CINgs1128 extends CINcode128 {
         return $this->noLengthLimit;
     }
 
-    public function setLabel($label) {
+    public function setLabel($label){
         $this->customLabelText = $label;
     }
 
@@ -250,8 +248,8 @@ class CINgs1128 extends CINcode128 {
      */
     public function parse($text) {
         $parsedText = $this->parseGs1128($text);
-        if ($this->customLabelText !== false and CINBarcode1D::AUTO_LABEL != $this->customLabelText) {
-            parent::setLabel($this->customLabelText);
+        if($this->customLabelText!==false and CINBarcode1D::AUTO_LABEL!=$this->customLabelText){
+            parent::setLabel($this->customLabelText);    
         }
         parent::parse($parsedText);
     }
@@ -262,9 +260,9 @@ class CINgs1128 extends CINcode128 {
      * @return string
      */
     private function formatGs1128() {
-        $formatedText  = '~F1';
+        $formatedText = '~F1';
         $formatedLabel = '';
-        $c             = count($this->identifiersId);
+        $c = count($this->identifiersId);
 
         for ($i = 0; $i < $c; $i++) {
             if ($i > 0) {
@@ -278,13 +276,13 @@ class CINgs1128 extends CINcode128 {
             $formatedText .= $this->identifiersId[$i];
 
             $formatedLabel .= $this->identifiersContent[$i];
-            $formatedText  .= $this->identifiersContent[$i];
+            $formatedText .= $this->identifiersContent[$i];
 
             if (isset($this->identifiersAi[$this->identifiersId[$i]])) {
                 $ai_data = $this->identifiersAi[$this->identifiersId[$i]];
             } elseif (isset($this->identifiersId[$i][3])) {
                 $identifierWithVar = substr($this->identifiersId[$i], 0, -1) . 'y';
-                $ai_data           = isset($this->identifiersAi[$identifierWithVar]) ? $this->identifiersAi[$identifierWithVar] : null;
+                $ai_data = isset($this->identifiersAi[$identifierWithVar]) ? $this->identifiersAi[$identifierWithVar] : null;
             } else {
                 $ai_data = null;
             }
@@ -318,7 +316,7 @@ class CINgs1128 extends CINcode128 {
     private function parseGs1128($text) {
         /* We format correctly what the user gives */
         if (is_array($text)) {
-            $formatArray = [];
+            $formatArray = array();
             foreach ($text as $content) {
                 if (is_array($content)) { /* double array */
                     if (count($content) === 2) {
@@ -338,7 +336,7 @@ class CINgs1128 extends CINcode128 {
             unset($text);
             $text = $formatArray;
         } else { /* string */
-            $text = [$text];
+            $text = array($text);
         }
 
         $textCount = count($text);
@@ -356,38 +354,38 @@ class CINgs1128 extends CINcode128 {
      * Splits the id and the content for each application identifiers (AIs).
      *
      * @param string $text
-     * @param int    $cmpt
+     * @param int $cmpt
      * @return bool
      */
     private function parseContent($text) {
         /* $yAlreadySet has 3 states: */
         /* null: There is no variable in the ID; true: the variable is already set; false: the variable is not set yet; */
-        $content             = null;
-        $yAlreadySet         = null;
-        $realNameId          = null;
-        $separatorsFound     = 0;
-        $checksumAdded       = 0;
+        $content = null;
+        $yAlreadySet = null;
+        $realNameId = null;
+        $separatorsFound = 0;
+        $checksumAdded = 0;
         $decimalPointRemoved = 0;
-        $toParse             = str_replace('~F1', chr(29), $text);
-        $nbCharToParse       = strlen($toParse);
-        $nbCharId            = 0;
-        $isFormated          = $toParse[0] === '(' ? true : false;
-        $maxCharId           = $isFormated ? self::MAX_ID_FORMATED : self::MAX_ID_NOT_FORMATED;
-        $id                  = strtolower(substr($toParse, 0, min($maxCharId, $nbCharToParse)));
-        $id                  = $isFormated ? $this->findIdFormated($id, $yAlreadySet, $realNameId) : $this->findIdNotFormated($id, $yAlreadySet, $realNameId);
+        $toParse = str_replace('~F1', chr(29), $text);
+        $nbCharToParse = strlen($toParse);
+        $nbCharId = 0;
+        $isFormated = $toParse[0] === '(' ? true : false;
+        $maxCharId = $isFormated ? self::MAX_ID_FORMATED : self::MAX_ID_NOT_FORMATED;
+        $id = strtolower(substr($toParse, 0, min($maxCharId, $nbCharToParse)));
+        $id = $isFormated ? $this->findIdFormated($id, $yAlreadySet, $realNameId) : $this->findIdNotFormated($id, $yAlreadySet, $realNameId);
 
         if ($id === false) {
             if ($this->allowsUnknownIdentifier === false) {
                 return false;
             }
 
-            $id       = null;
+            $id = null;
             $nbCharId = 0;
-            $content  = $toParse;
+            $content = $toParse;
         } else {
             $nbCharId = strlen($id) + ($isFormated ? 2 : 0);
-            $n        = min($this->identifiersAi[$realNameId][self::MAXLENGTH], $nbCharToParse);
-            $content  = substr($toParse, $nbCharId, $n);
+            $n = min($this->identifiersAi[$realNameId][self::MAXLENGTH], $nbCharToParse);
+            $content = substr($toParse, $nbCharId, $n);
         }
 
         if ($id !== null) {
@@ -428,13 +426,13 @@ class CINgs1128 extends CINcode128 {
             }
         }
 
-        $this->identifiersId[]      = $id;
+        $this->identifiersId[] = $id;
         $this->identifiersContent[] = $content;
 
         $nbCharLastContent = (((strlen($content) + $nbCharId) - $checksumAdded) + $decimalPointRemoved) + $separatorsFound;
         if ($nbCharToParse - $nbCharLastContent > 0) {
             /* If there is more than one content in this array, we parse again */
-            $otherContent       = substr($toParse, $nbCharLastContent, $nbCharToParse);
+            $otherContent = substr($toParse, $nbCharLastContent, $nbCharToParse);
             $nbCharOtherContent = strlen($otherContent);
 
             if ($otherContent[0] === chr(29)) {
@@ -455,12 +453,12 @@ class CINgs1128 extends CINcode128 {
      * Checks if an id exists.
      *
      * @param string $id
-     * @param bool   $yAlreadySet
+     * @param bool $yAlreadySet
      * @param string $realNameId
      * @return bool
      */
     private function idExists($id, &$yAlreadySet, &$realNameId) {
-        $yFound     = isset($id[3]) && $id[3] === 'y';
+        $yFound = isset($id[3]) && $id[3] === 'y';
         $idVarAdded = substr($id, 0, -1) . 'y';
 
         if (isset($this->identifiersAi[$id])) {
@@ -473,7 +471,7 @@ class CINgs1128 extends CINcode128 {
         } elseif (!$yFound && isset($this->identifiersAi[$idVarAdded])) {
             /* if the id don't exist, we try to find this id with "y" at the last char */
             $yAlreadySet = true;
-            $realNameId  = $idVarAdded;
+            $realNameId = $idVarAdded;
             return true;
         }
 
@@ -484,7 +482,7 @@ class CINgs1128 extends CINcode128 {
      * Finds ID with formated content.
      *
      * @param string $id
-     * @param bool   $yAlreadySet
+     * @param bool $yAlreadySet
      * @param string $realNameId
      * @return mixed
      */
@@ -514,7 +512,7 @@ class CINgs1128 extends CINcode128 {
      * Finds ID with non-formated content.
      *
      * @param string $id
-     * @param bool   $yAlreadySet
+     * @param bool $yAlreadySet
      * @param string $realNameId
      * @return mixed
      */
@@ -556,9 +554,9 @@ class CINgs1128 extends CINcode128 {
             case self::DATE_YYMMDD:
                 $valid_date = true;
                 if (preg_match("/^[0-9]{6}$/", $content)) {
-                    $year  = substr($content, 0, 2);
+                    $year = substr($content, 0, 2);
                     $month = substr($content, 2, 2);
-                    $day   = substr($content, 4, 2);
+                    $day = substr($content, 4, 2);
 
                     /* day can be 00 if we only need month and year */
                     if (intval($month) < 1 || intval($month) > 12 || intval($day) < 0 || intval($day) > 31) {
@@ -576,8 +574,8 @@ class CINgs1128 extends CINcode128 {
         }
 
         // We check the length of the content
-        $nbCharContent    = strlen($content);
-        $checksumChar     = 0;
+        $nbCharContent = strlen($content);
+        $checksumChar = 0;
         $minlengthContent = $this->identifiersAi[$realNameId][self::MINLENGTH];
         $maxlengthContent = $this->identifiersAi[$realNameId][self::MAXLENGTH];
 
@@ -601,13 +599,13 @@ class CINgs1128 extends CINcode128 {
      *
      * @param string $content
      * @param string $id
-     * @param int    $realNameId
-     * @param int    $checksumAdded
+     * @param int $realNameId
+     * @param int $checksumAdded
      * @return bool
      */
     private function checkChecksum(&$content, $id, $realNameId, &$checksumAdded) {
         if ($this->identifiersAi[$realNameId][self::CHECKSUM]) {
-            $nbCharContent    = strlen($content);
+            $nbCharContent = strlen($content);
             $minlengthContent = $this->identifiersAi[$realNameId][self::MINLENGTH];
             if ($nbCharContent === ($minlengthContent - 1)) {
                 /* we need to calculate the checksum */
@@ -630,8 +628,8 @@ class CINgs1128 extends CINcode128 {
      *
      * @param string $content
      * @param string $id
-     * @param bool   $yAlreadySet
-     * @param int    $decimalPointRemoved
+     * @param bool $yAlreadySet
+     * @param int $decimalPointRemoved
      * @return bool
      */
     private function checkVars(&$content, &$id, $yAlreadySet, &$decimalPointRemoved) {
@@ -649,7 +647,7 @@ class CINgs1128 extends CINcode128 {
                 $pos = $nbCharContent - 1;
             }
 
-            $id      = str_replace('y', $nbCharContent - ($pos + 1), strtolower($id));
+            $id = str_replace('y', $nbCharContent - ($pos + 1), strtolower($id));
             $content = str_replace('.', '', $content);
             $decimalPointRemoved++;
         }
@@ -670,17 +668,17 @@ class CINgs1128 extends CINcode128 {
         // Odd Position = 3, Even Position = 1
         // Multiply it by the number
         // Add all of that and do 10-(?mod10)
-        $odd           = true;
+        $odd = true;
         $checksumValue = 0;
-        $c             = strlen($content);
+        $c = strlen($content);
 
         for ($i = $c; $i > 0; $i--) {
             if ($odd === true) {
                 $multiplier = 3;
-                $odd        = false;
+                $odd = false;
             } else {
                 $multiplier = 1;
-                $odd        = true;
+                $odd = true;
             }
 
             $checksumValue += ($content[$i - 1] * $multiplier);
@@ -689,5 +687,4 @@ class CINgs1128 extends CINcode128 {
         return (10 - $checksumValue % 10) % 10;
     }
 }
-
 ?>

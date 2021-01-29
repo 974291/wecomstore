@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINcode39;
 
@@ -44,8 +42,8 @@ class CINcode39extended extends CINcode39 {
     public function parse($text) {
         $this->text = $text;
 
-        $data     = [];
-        $indcheck = [];
+        $data = array();
+        $indcheck = array();
 
         $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
@@ -61,30 +59,30 @@ class CINcode39extended extends CINcode39 {
                         $v = $extended[$j];
                         if ($v === '$') {
                             $indcheck[] = self::EXTENDED_1;
-                            $data[]     = $this->code[self::EXTENDED_1];
+                            $data[] = $this->code[self::EXTENDED_1];
                         } elseif ($v === '%') {
                             $indcheck[] = self::EXTENDED_2;
-                            $data[]     = $this->code[self::EXTENDED_2];
+                            $data[] = $this->code[self::EXTENDED_2];
                         } elseif ($v === '/') {
                             $indcheck[] = self::EXTENDED_3;
-                            $data[]     = $this->code[self::EXTENDED_3];
+                            $data[] = $this->code[self::EXTENDED_3];
                         } elseif ($v === '+') {
                             $indcheck[] = self::EXTENDED_4;
-                            $data[]     = $this->code[self::EXTENDED_4];
+                            $data[] = $this->code[self::EXTENDED_4];
                         } else {
-                            $pos2       = array_search($v, $this->keys);
+                            $pos2 = array_search($v, $this->keys);
                             $indcheck[] = $pos2;
-                            $data[]     = $this->code[$pos2];
+                            $data[] = $this->code[$pos2];
                         }
                     }
                 }
             } else {
                 $indcheck[] = $pos;
-                $data[]     = $this->code[$pos];
+                $data[] = $this->code[$pos];
             }
         }
 
-        $this->setData([$indcheck, $data]);
+        $this->setData(array($indcheck, $data));
         $this->addDefaultLabel();
     }
 
@@ -119,8 +117,8 @@ class CINcode39extended extends CINcode39 {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $textlength     = 13 * count($this->data);
-        $startlength    = 13;
+        $textlength = 13 * count($this->data);
+        $startlength = 13;
         $checksumlength = 0;
         if ($this->checksum === true) {
             $checksumlength = 13;
@@ -150,7 +148,7 @@ class CINcode39extended extends CINcode39 {
      */
     protected function calculateChecksum() {
         $this->checksumValue = 0;
-        $c                   = count($this->indcheck);
+        $c = count($this->indcheck);
         for ($i = 0; $i < $c; $i++) {
             $this->checksumValue += $this->indcheck[$i];
         }
@@ -170,7 +168,7 @@ class CINcode39extended extends CINcode39 {
      */
     private function setData($data) {
         $this->indcheck = $data[0];
-        $this->data     = $data[1];
+        $this->data = $data[1];
         $this->calculateChecksum();
     }
 
@@ -209,5 +207,4 @@ class CINcode39extended extends CINcode39 {
         }
     }
 }
-
 ?>

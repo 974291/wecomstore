@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINArgumentException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
@@ -25,8 +23,8 @@ class CINmsi extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        $this->code = [
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $this->code = array(
             '01010101',     /* 0 */
             '01010110',     /* 1 */
             '01011001',     /* 2 */
@@ -37,7 +35,7 @@ class CINmsi extends CINBarcode1D {
             '01101010',     /* 7 */
             '10010101',     /* 8 */
             '10010110'      /* 9 */
-        ];
+        );
 
         $this->setChecksum(0);
     }
@@ -92,10 +90,10 @@ class CINmsi extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $textlength     = 12 * strlen($this->text);
-        $startlength    = 3;
+        $textlength = 12 * strlen($this->text);
+        $startlength = 3;
         $checksumlength = $this->checksum * 12;
-        $endlength      = 4;
+        $endlength = 4;
 
         $w += $startlength + $textlength + $checksumlength + $endlength;
         $h += $this->thickness;
@@ -132,12 +130,12 @@ class CINmsi extends CINBarcode1D {
         // Add up all the digit in the result (270 : 2+7+0)
         // Add up other digit not used.
         // 10 - (? Modulo 10). If result = 10, change to 0
-        $last_text           = $this->text;
-        $this->checksumValue = [];
+        $last_text = $this->text;
+        $this->checksumValue = array();
         for ($i = 0; $i < $this->checksum; $i++) {
-            $new_text   = '';
+            $new_text = '';
             $new_number = 0;
-            $c          = strlen($last_text);
+            $c = strlen($last_text);
             if ($c % 2 === 0) { // Even
                 $starting = 1;
             } else {
@@ -149,7 +147,7 @@ class CINmsi extends CINBarcode1D {
             }
 
             $new_text = strval(intval($new_text) * 2);
-            $c2       = strlen($new_text);
+            $c2 = strlen($new_text);
             for ($j = 0; $j < $c2; $j++) {
                 $new_number += intval($new_text[$j]);
             }
@@ -158,9 +156,9 @@ class CINmsi extends CINBarcode1D {
                 $new_number += intval($last_text[$j]);
             }
 
-            $new_number            = (10 - $new_number % 10) % 10;
+            $new_number = (10 - $new_number % 10) % 10;
             $this->checksumValue[] = $new_number;
-            $last_text             .= $new_number;
+            $last_text .= $new_number;
         }
     }
 
@@ -174,7 +172,7 @@ class CINmsi extends CINBarcode1D {
 
         if ($this->checksumValue !== false) {
             $ret = '';
-            $c   = count($this->checksumValue);
+            $c = count($this->checksumValue);
             for ($i = 0; $i < $c; $i++) {
                 $ret .= $this->keys[$this->checksumValue[$i]];
             }
@@ -185,5 +183,4 @@ class CINmsi extends CINBarcode1D {
         return false;
     }
 }
-
 ?>

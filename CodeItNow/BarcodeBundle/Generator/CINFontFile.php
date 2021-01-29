@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINArgumentException;
 use CodeItNow\BarcodeBundle\Generator\CINFont;
 use CodeItNow\BarcodeBundle\Generator\CINColor;
@@ -31,15 +29,15 @@ class CINFontFile implements CINFont {
      * Constructor.
      *
      * @param string $fontPath path to the file
-     * @param int    $size     size in point
+     * @param int $size size in point
      */
     public function __construct($fontPath, $size) {
         if (!file_exists($fontPath)) {
             throw new CINArgumentException('The font path is incorrect.', 'fontPath');
         }
 
-        $this->path            = $fontPath;
-        $this->size            = $size;
+        $this->path = $fontPath;
+        $this->size = $size;
         $this->foregroundColor = new CINColor('black');
         $this->setRotationAngle(0);
         $this->setBoxFix(self::PHP_BOX_FIX);
@@ -61,7 +59,7 @@ class CINFontFile implements CINFont {
      */
     public function setText($text) {
         $this->text = $text;
-        $this->box  = null;
+        $this->box = null;
     }
 
     /**
@@ -147,15 +145,15 @@ class CINFontFile implements CINFont {
      * @return int[]
      */
     public function getDimension() {
-        $w   = 0.0;
-        $h   = 0.0;
+        $w = 0.0;
+        $h = 0.0;
         $box = $this->getBox();
 
         if ($box !== null) {
-            $minX = min([$box[0], $box[2], $box[4], $box[6]]);
-            $maxX = max([$box[0], $box[2], $box[4], $box[6]]);
-            $minY = min([$box[1], $box[3], $box[5], $box[7]]);
-            $maxY = max([$box[1], $box[3], $box[5], $box[7]]);
+            $minX = min(array($box[0], $box[2], $box[4], $box[6]));
+            $maxX = max(array($box[0], $box[2], $box[4], $box[6]));
+            $minY = min(array($box[1], $box[3], $box[5], $box[7]));
+            $maxY = max(array($box[1], $box[3], $box[5], $box[7]));
 
             $w = $maxX - $minX;
             $h = $maxY - $minY;
@@ -163,9 +161,9 @@ class CINFontFile implements CINFont {
 
         $rotationAngle = $this->getRotationAngle();
         if ($rotationAngle === 90 || $rotationAngle === 270) {
-            return [$h + self::PHP_BOX_FIX, $w];
+            return array($h + self::PHP_BOX_FIX, $w);
         } else {
-            return [$w + self::PHP_BOX_FIX, $h];
+            return array($w + self::PHP_BOX_FIX, $h);
         }
     }
 
@@ -174,8 +172,8 @@ class CINFontFile implements CINFont {
      * $x and $y represent the left bottom corner.
      *
      * @param resource $im
-     * @param int      $x
-     * @param int      $y
+     * @param int $x
+     * @param int $y
      */
     public function draw($im, $x, $y) {
         $drawingPosition = $this->getDrawingPosition($x, $y);
@@ -183,8 +181,8 @@ class CINFontFile implements CINFont {
     }
 
     private function getDrawingPosition($x, $y) {
-        $dimension     = $this->getDimension();
-        $box           = $this->getBox();
+        $dimension = $this->getDimension();
+        $box = $this->getBox();
         $rotationAngle = $this->getRotationAngle();
         if ($rotationAngle === 0) {
             $y += abs(min($box[5], $box[7]));
@@ -198,17 +196,16 @@ class CINFontFile implements CINFont {
             $x += abs(max($box[1], $box[3]));
         }
 
-        return [$x, $y];
+        return array($x, $y);
     }
 
     private function getBox() {
         if ($this->box === null) {
-            $gd        = imagecreate(1, 1);
+            $gd = imagecreate(1, 1);
             $this->box = imagettftext($gd, $this->size, 0, 0, 0, 0, $this->path, $this->text);
         }
 
         return $this->box;
     }
 }
-
 ?>

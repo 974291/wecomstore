@@ -14,12 +14,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode;
 use CodeItNow\BarcodeBundle\Generator\CINean13;
@@ -54,7 +52,7 @@ class CINupca extends CINean13 {
      * Draws the extended bars on the image.
      *
      * @param resource $im
-     * @param int      $plus
+     * @param int $plus
      */
     protected function drawExtendedBars($im, $plus) {
         $temp_text = $this->text . $this->keys[$this->checksumValue];
@@ -71,7 +69,7 @@ class CINupca extends CINean13 {
 
         // Attemping to increase the 2 following bars
         $this->positionX += 1;
-        $temp_value      = $this->findCode($temp_text[1]);
+        $temp_value = $this->findCode($temp_text[1]);
         $this->drawChar($im, $temp_value, false);
 
         // Center Guard Bar
@@ -82,7 +80,7 @@ class CINupca extends CINean13 {
 
         // Attemping to increase the 2 last bars
         $this->positionX += 37;
-        $temp_value      = $this->findCode($temp_text[12]);
+        $temp_value = $this->findCode($temp_text[12]);
         $this->drawChar($im, $temp_value, true);
 
         // Completly last bars
@@ -101,12 +99,12 @@ class CINupca extends CINean13 {
         if ($this->isDefaultEanLabelEnabled()) {
             $this->processChecksum();
             $label = $this->getLabel();
-            $font  = $this->font;
+            $font = $this->font;
 
             $this->labelLeft = new CINLabel(substr($label, 0, 1), $font, CINLabel::POSITION_LEFT, CINLabel::ALIGN_BOTTOM);
             $this->labelLeft->setSpacing(4 * $this->scale);
 
-            $this->labelCenter1    = new CINLabel(substr($label, 1, 5), $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
+            $this->labelCenter1 = new CINLabel(substr($label, 1, 5), $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
             $labelCenter1Dimension = $this->labelCenter1->getDimension();
             $this->labelCenter1->setOffset(($this->scale * 44 - $labelCenter1Dimension[0]) / 2 + $this->scale * 6);
 
@@ -147,5 +145,4 @@ class CINupca extends CINean13 {
         }
     }
 }
-
 ?>

@@ -7,12 +7,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINBarcode;
 use CodeItNow\BarcodeBundle\Generator\CINColor;
 use CodeItNow\BarcodeBundle\Generator\CINDrawException;
@@ -36,16 +34,16 @@ class CINDrawing {
     /**
      * Constructor.
      *
-     * @param int      $w
-     * @param int      $h
+     * @param int $w
+     * @param int $h
      * @param string filename
      * @param CINColor $color
      */
     public function __construct($filename = null, CINColor $color) {
         $this->im = null;
         $this->setFilename($filename);
-        $this->color        = $color;
-        $this->dpi          = null;
+        $this->color = $color;
+        $this->dpi = null;
         $this->rotateDegree = 0.0;
     }
 
@@ -148,7 +146,7 @@ class CINDrawing {
      * Draws the barcode on the image $im.
      */
     public function draw() {
-        $size    = $this->barcode->getDimension(0, 0);
+        $size = $this->barcode->getDimension(0, 0);
         $this->w = max(1, $size[0]);
         $this->h = max(1, $size[1]);
         $this->init();
@@ -214,10 +212,10 @@ class CINDrawing {
 
         $text = 'Error: ' . $exception->getMessage();
 
-        $width  = imagefontwidth(2) * strlen($text);
+        $width = imagefontwidth(2) * strlen($text);
         $height = imagefontheight(2);
         if ($width > $w || $height > $h) {
-            $width  = max($w, $width);
+            $width = max($w, $width);
             $height = max($h, $height);
 
             // We change the size of the image
@@ -249,5 +247,4 @@ class CINDrawing {
         }
     }
 }
-
 ?>

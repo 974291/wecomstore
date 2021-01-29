@@ -6,11 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
 namespace CodeItNow\BarcodeBundle\Generator\Drawer;
-
 use CodeItNow\BarcodeBundle\Generator\Drawer\CINDraw;
 
 if (!function_exists('file_put_contents')) {
@@ -45,7 +44,7 @@ class CINDrawJPG extends CINDraw {
      * @param int $dpi
      */
     public function setDPI($dpi) {
-        if (is_int($dpi)) {
+        if(is_int($dpi)) {
             $this->dpi = max(1, $dpi);
         } else {
             $this->dpi = null;
@@ -91,16 +90,13 @@ class CINDrawJPG extends CINDraw {
     }
 
     private function internalSetC(&$bin) {
-        if (strcmp(substr($bin, 0, 4), pack('H*', 'FFD8FFE0')) === 0) {
-            $offset     = 4 + (ord($bin[4]) << 8 | ord($bin[5]));
-            $firstPart  = substr($bin, 0, $offset);
+        if(strcmp(substr($bin, 0, 4), pack('H*', 'FFD8FFE0')) === 0) {
+            $offset = 4 + (ord($bin[4]) << 8 | ord($bin[5]));
+            $firstPart = substr($bin, 0, $offset);
             $secondPart = substr($bin, $offset);
-            $cr         = pack('H*', '5765636f6d53746f7265');
-            $bin        = $firstPart;
-            $bin        .= $cr;
-            $bin        .= $secondPart;
+            $bin = $firstPart;
+            $bin .= $secondPart;
         }
     }
 }
-
 ?>

@@ -10,12 +10,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 
@@ -35,8 +33,8 @@ class CINcode93 extends CINBarcode1D {
         parent::__construct();
 
         $this->starting = $this->ending = 47; /* * */
-        $this->keys     = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-', '.', ' ', '$', '/', '+', '%', '($)', '(%)', '(/)', '(+)', '(*)'];
-        $this->code     = [
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-', '.', ' ', '$', '/', '+', '%', '($)', '(%)', '(/)', '(+)', '(*)');
+        $this->code = array(
             '020001',   /* 0 */
             '000102',   /* 1 */
             '000201',   /* 2 */
@@ -85,7 +83,7 @@ class CINcode93 extends CINBarcode1D {
             '200010',   /*(/)*/
             '011100',   /*(+)*/
             '000030'    /*(*)*/
-        ];
+        );
     }
 
     /**
@@ -96,8 +94,8 @@ class CINcode93 extends CINBarcode1D {
     public function parse($text) {
         $this->text = $text;
 
-        $data     = [];
-        $indcheck = [];
+        $data = array();
+        $indcheck = array();
 
         $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
@@ -113,30 +111,30 @@ class CINcode93 extends CINBarcode1D {
                         $v = $extended[$j];
                         if ($v === '$') {
                             $indcheck[] = self::EXTENDED_1;
-                            $data[]     = $this->code[self::EXTENDED_1];
+                            $data[] = $this->code[self::EXTENDED_1];
                         } elseif ($v === '%') {
                             $indcheck[] = self::EXTENDED_2;
-                            $data[]     = $this->code[self::EXTENDED_2];
+                            $data[] = $this->code[self::EXTENDED_2];
                         } elseif ($v === '/') {
                             $indcheck[] = self::EXTENDED_3;
-                            $data[]     = $this->code[self::EXTENDED_3];
+                            $data[] = $this->code[self::EXTENDED_3];
                         } elseif ($v === '+') {
                             $indcheck[] = self::EXTENDED_4;
-                            $data[]     = $this->code[self::EXTENDED_4];
+                            $data[] = $this->code[self::EXTENDED_4];
                         } else {
-                            $pos2       = array_search($v, $this->keys);
+                            $pos2 = array_search($v, $this->keys);
                             $indcheck[] = $pos2;
-                            $data[]     = $this->code[$pos2];
+                            $data[] = $this->code[$pos2];
                         }
                     }
                 }
             } else {
                 $indcheck[] = $pos;
-                $data[]     = $this->code[$pos];
+                $data[] = $this->code[$pos];
             }
         }
 
-        $this->setData([$indcheck, $data]);
+        $this->setData(array($indcheck, $data));
         $this->addDefaultLabel();
     }
 
@@ -175,10 +173,10 @@ class CINcode93 extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $startlength    = 9;
-        $textlength     = 9 * count($this->data);
+        $startlength = 9;
+        $textlength = 9 * count($this->data);
         $checksumlength = 2 * 9;
-        $endlength      = 9 + 1; // + final bar
+        $endlength = 9 + 1; // + final bar
 
         $w += $startlength + $textlength + $checksumlength + $endlength;
         $h += $this->thickness;
@@ -211,9 +209,9 @@ class CINcode93 extends CINBarcode1D {
         // Second CheckSUM "K"
         // Same as CheckSUM "C" but we count the CheckSum "C" at the end
         // After 15, the sequence wraps around back to 1.
-        $sequence_multiplier = [20, 15];
-        $this->checksumValue = [];
-        $indcheck            = $this->indcheck;
+        $sequence_multiplier = array(20, 15);
+        $this->checksumValue = array();
+        $indcheck = $this->indcheck;
         for ($z = 0; $z < 2; $z++) {
             $checksum = 0;
             for ($i = count($indcheck), $j = 0; $i > 0; $i--, $j++) {
@@ -226,7 +224,7 @@ class CINcode93 extends CINBarcode1D {
             }
 
             $this->checksumValue[$z] = $checksum % 47;
-            $indcheck[]              = $this->checksumValue[$z];
+            $indcheck[] = $this->checksumValue[$z];
         }
     }
 
@@ -240,7 +238,7 @@ class CINcode93 extends CINBarcode1D {
 
         if ($this->checksumValue !== false) {
             $ret = '';
-            $c   = count($this->checksumValue);
+            $c = count($this->checksumValue);
             for ($i = 0; $i < $c; $i++) {
                 $ret .= $this->keys[$this->checksumValue[$i]];
             }
@@ -263,7 +261,7 @@ class CINcode93 extends CINBarcode1D {
      */
     private function setData($data) {
         $this->indcheck = $data[0];
-        $this->data     = $data[1];
+        $this->data = $data[1];
         $this->calculateChecksum();
     }
 
@@ -302,5 +300,4 @@ class CINcode93 extends CINBarcode1D {
         }
     }
 }
-
 ?>

@@ -7,12 +7,10 @@
  * A postnet is composed of either 5, 9 or 11 digits used by US postal service.
  *
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
+ * @link http://www.codeitnow.in
  * @package https://github.com/codeitnowin/barcode-generator  --------------------------------------------------------------------
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 
@@ -24,8 +22,8 @@ class CINpostnet extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        $this->code = [
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $this->code = array(
             '11000',    /* 0 */
             '00011',    /* 1 */
             '00101',    /* 2 */
@@ -36,7 +34,7 @@ class CINpostnet extends CINBarcode1D {
             '10001',    /* 7 */
             '10010',    /* 8 */
             '10100'     /* 9 */
-        ];
+        );
 
         $this->setThickness(9);
     }
@@ -49,7 +47,7 @@ class CINpostnet extends CINBarcode1D {
     public function draw($im) {
         // Checksum
         $checksum = 0;
-        $c        = strlen($this->text);
+        $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $checksum += intval($this->text[$i]);
         }
@@ -80,11 +78,11 @@ class CINpostnet extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $c              = strlen($this->text);
-        $startlength    = 3;
-        $textlength     = $c * 5 * 3;
+        $c = strlen($this->text);
+        $startlength = 3;
+        $textlength = $c * 5 * 3;
         $checksumlength = 5 * 3;
-        $endlength      = 3;
+        $endlength = 3;
 
         // We remove the white on the right
         $removelength = -1.56;
@@ -122,8 +120,8 @@ class CINpostnet extends CINBarcode1D {
      * Overloaded method for drawing special barcode.
      *
      * @param resource $im
-     * @param string   $code
-     * @param boolean  $startBar
+     * @param string $code
+     * @param boolean $startBar
      */
     protected function drawChar($im, $code, $startBar = true) {
         $c = strlen($code);
@@ -139,5 +137,4 @@ class CINpostnet extends CINBarcode1D {
         }
     }
 }
-
 ?>

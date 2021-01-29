@@ -5,14 +5,13 @@
  * Argument Exception
  *
  *--------------------------------------------------------------------
- *
+ * 
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
 
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use Exception;
 
 class CINArgumentException extends Exception {
@@ -29,5 +28,4 @@ class CINArgumentException extends Exception {
         parent::__construct($message, 20000);
     }
 }
-
 ?>

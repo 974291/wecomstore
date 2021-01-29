@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINArgumentException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 use CodeItNow\BarcodeBundle\Generator\CINFontPhp;
@@ -47,9 +45,9 @@ abstract class CINBarcode1D extends CINBarcode {
         $this->setLabel(self::AUTO_LABEL);
         $this->setFont(new CINFontPhp(5));
 
-        $this->text          = '';
+        $this->text = '';
         $this->checksumValue = false;
-        $this->positionX     = 0;
+        $this->positionX = 0;
     }
 
     /**
@@ -135,7 +133,7 @@ abstract class CINBarcode1D extends CINBarcode {
      * @param mixed $text
      */
     public function parse($text) {
-        $this->text          = $text;
+        $this->text = $text;
         $this->checksumValue = false; // Reset checksumValue
         $this->validate();
 
@@ -169,7 +167,7 @@ abstract class CINBarcode1D extends CINBarcode {
      */
     protected function addDefaultLabel() {
         $label = $this->getLabel();
-        $font  = $this->font;
+        $font = $this->font;
         if ($label !== null && $label !== '' && $font !== null && $this->defaultLabel !== null) {
             $this->defaultLabel->setText($label);
             $this->defaultLabel->setFont($font);
@@ -209,13 +207,13 @@ abstract class CINBarcode1D extends CINBarcode {
      * If $startBar is false, the line begins by a bar.
      *
      * @param resource $im
-     * @param string   $code
-     * @param boolean  $startBar
+     * @param string $code
+     * @param boolean $startBar
      */
     protected function drawChar($im, $code, $startBar = true) {
-        $colors       = [CINBarcode::COLOR_FG, CINBarcode::COLOR_BG];
+        $colors = array(CINBarcode::COLOR_FG, CINBarcode::COLOR_BG);
         $currentColor = $startBar ? 0 : 1;
-        $c            = strlen($code);
+        $c = strlen($code);
         for ($i = 0; $i < $c; $i++) {
             for ($j = 0; $j < intval($code[$i]) + 1; $j++) {
                 $this->drawSingleBar($im, $colors[$currentColor]);
@@ -230,7 +228,7 @@ abstract class CINBarcode1D extends CINBarcode {
      * Draws a Bar of $color depending of the resolution.
      *
      * @param resource $img
-     * @param int      $color
+     * @param int $color
      */
     protected function drawSingleBar($im, $color) {
         $this->drawFilledRectangle($im, $this->positionX, 0, $this->positionX, $this->thickness - 1, $color);
@@ -261,5 +259,4 @@ abstract class CINBarcode1D extends CINBarcode {
         return false;
     }
 }
-
 ?>

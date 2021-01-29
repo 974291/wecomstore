@@ -6,8 +6,8 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
 namespace CodeItNow\BarcodeBundle\Generator\Drawer;
 
@@ -80,20 +80,20 @@ class CINDrawPNG extends CINDraw {
     }
 
     private function detectChunks($bin) {
-        $data   = substr($bin, 8);
-        $chunks = [];
-        $c      = strlen($data);
+        $data = substr($bin, 8);
+        $chunks = array();
+        $c = strlen($data);
 
         $offset = 0;
         while ($offset < $c) {
             $packed = unpack('Nsize/a4chunk', $data);
-            $size   = $packed['size'];
-            $chunk  = $packed['chunk'];
+            $size = $packed['size'];
+            $chunk = $packed['chunk'];
 
-            $chunks[] = ['offset' => $offset + 8, 'size' => $size, 'chunk' => $chunk];
-            $jump     = $size + 12;
-            $offset   += $jump;
-            $data     = substr($data, $jump);
+            $chunks[] = array('offset' => $offset + 8, 'size' => $size, 'chunk' => $chunk);
+            $jump = $size + 12;
+            $offset += $jump;
+            $data = substr($data, $jump);
         }
 
         return $chunks;
@@ -104,35 +104,35 @@ class CINDrawPNG extends CINDraw {
             $meters = (int)($this->dpi * 39.37007874);
 
             $found = -1;
-            $c     = count($chunks);
-            for ($i = 0; $i < $c; $i++) {
+            $c = count($chunks);
+            for($i = 0; $i < $c; $i++) {
                 // We already have a pHYs
-                if ($chunks[$i]['chunk'] === 'pHYs') {
+                if($chunks[$i]['chunk'] === 'pHYs') {
                     $found = $i;
                     break;
                 }
             }
 
             $data = 'pHYs' . pack('NNC', $meters, $meters, 0x01);
-            $crc  = self::crc($data, 13);
-            $cr   = pack('Na13N', 9, $data, $crc);
+            $crc = self::crc($data, 13);
+            $cr = pack('Na13N', 9, $data, $crc);
 
             // We didn't have a pHYs
-            if ($found == -1) {
+            if($found == -1) {
                 // Don't do anything if we have a bad PNG
-                if ($c >= 2 && $chunks[0]['chunk'] === 'IHDR') {
-                    array_splice($chunks, 1, 0, [['offset' => 33, 'size' => 9, 'chunk' => 'pHYs']]);
+                if($c >= 2 && $chunks[0]['chunk'] === 'IHDR') {
+                    array_splice($chunks, 1, 0, array(array('offset' => 33, 'size' => 9, 'chunk' => 'pHYs')));
 
                     // Push the data
-                    for ($i = 2; $i < $c; $i++) {
+                    for($i = 2; $i < $c; $i++) {
                         $chunks[$i]['offset'] += 21;
                     }
 
-                    $firstPart  = substr($bin, 0, 33);
+                    $firstPart = substr($bin, 0, 33);
                     $secondPart = substr($bin, 33);
-                    $bin        = $firstPart;
-                    $bin        .= $cr;
-                    $bin        .= $secondPart;
+                    $bin = $firstPart;
+                    $bin .= $cr;
+                    $bin .= $secondPart;
                 }
             } else {
                 $bin = substr_replace($bin, $cr, $chunks[$i]['offset'], 21);
@@ -142,16 +142,14 @@ class CINDrawPNG extends CINDraw {
 
     private function internalSetC(&$bin, &$chunks) {
         if (count($chunks) >= 2 && $chunks[0]['chunk'] === 'IHDR') {
-            $firstPart  = substr($bin, 0, 33);
+            $firstPart = substr($bin, 0, 33);
             $secondPart = substr($bin, 33);
-            $cr         = pack('H*', '5765636f6d53746f7265');
-            $bin        = $firstPart;
-            $bin        .= $cr;
-            $bin        .= $secondPart;
+            $bin = $firstPart;
+            $bin .= $secondPart;
         }
     }
 
-    private static $crc_table = [];
+    private static $crc_table = array();
     private static $crc_table_computed = false;
 
     private static function make_crc_table() {
@@ -174,7 +172,7 @@ class CINDrawPNG extends CINDraw {
         $mask = 0x40000000;
 
         if ($x < 0) {
-            $x    &= 0x7FFFFFFF;
+            $x &= 0x7FFFFFFF;
             $mask = $mask >> ($n - 1);
             return ($x >> $n) | $mask;
         }
@@ -200,5 +198,4 @@ class CINDrawPNG extends CINDraw {
         return self::update_crc(-1, $data, $len) ^ -1;
     }
 }
-
 ?>

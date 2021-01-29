@@ -14,19 +14,17 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 use CodeItNow\BarcodeBundle\Generator\CINLabel;
 
 class CINean13 extends CINBarcode1D {
-    protected $codeParity = [];
+    protected $codeParity = array();
     protected $labelLeft = null;
     protected $labelCenter1 = null;
     protected $labelCenter2 = null;
@@ -38,12 +36,12 @@ class CINean13 extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
         // Left-Hand Odd Parity starting with a space
         // Left-Hand Even Parity is the inverse (0=0012) starting with a space
         // Right-Hand is the same of Left-Hand starting with a bar
-        $this->code = [
+        $this->code = array(
             '2100',     /* 0 */
             '1110',     /* 1 */
             '1011',     /* 2 */
@@ -54,21 +52,21 @@ class CINean13 extends CINBarcode1D {
             '0201',     /* 7 */
             '0102',     /* 8 */
             '2001'      /* 9 */
-        ];
+        );
 
         // Parity, 0=Odd, 1=Even for manufacturer code. Depending on 1st System Digit
-        $this->codeParity = [
-            [0, 0, 0, 0, 0],   /* 0 */
-            [0, 1, 0, 1, 1],   /* 1 */
-            [0, 1, 1, 0, 1],   /* 2 */
-            [0, 1, 1, 1, 0],   /* 3 */
-            [1, 0, 0, 1, 1],   /* 4 */
-            [1, 1, 0, 0, 1],   /* 5 */
-            [1, 1, 1, 0, 0],   /* 6 */
-            [1, 0, 1, 0, 1],   /* 7 */
-            [1, 0, 1, 1, 0],   /* 8 */
-            [1, 1, 0, 1, 0]    /* 9 */
-        ];
+        $this->codeParity = array(
+            array(0, 0, 0, 0, 0),   /* 0 */
+            array(0, 1, 0, 1, 1),   /* 1 */
+            array(0, 1, 1, 0, 1),   /* 2 */
+            array(0, 1, 1, 1, 0),   /* 3 */
+            array(1, 0, 0, 1, 1),   /* 4 */
+            array(1, 1, 0, 0, 1),   /* 5 */
+            array(1, 1, 1, 0, 0),   /* 6 */
+            array(1, 0, 1, 0, 1),   /* 7 */
+            array(1, 0, 1, 1, 0),   /* 8 */
+            array(1, 1, 0, 1, 0)    /* 9 */
+        );
 
         $this->alignDefaultLabel(true);
     }
@@ -100,10 +98,10 @@ class CINean13 extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $startlength  = 3;
+        $startlength = 3;
         $centerlength = 5;
-        $textlength   = 12 * 7;
-        $endlength    = 3;
+        $textlength = 12 * 7;
+        $endlength = 3;
 
         $w += $startlength + $centerlength + $textlength + $endlength;
         $h += $this->thickness;
@@ -117,12 +115,12 @@ class CINean13 extends CINBarcode1D {
         if ($this->isDefaultEanLabelEnabled()) {
             $this->processChecksum();
             $label = $this->getLabel();
-            $font  = $this->font;
+            $font = $this->font;
 
             $this->labelLeft = new CINLabel(substr($label, 0, 1), $font, CINLabel::POSITION_LEFT, CINLabel::ALIGN_BOTTOM);
             $this->labelLeft->setSpacing(4 * $this->scale);
 
-            $this->labelCenter1    = new CINLabel(substr($label, 1, 6), $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
+            $this->labelCenter1 = new CINLabel(substr($label, 1, 6), $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
             $labelCenter1Dimension = $this->labelCenter1->getDimension();
             $this->labelCenter1->setOffset(($this->scale * 44 - $labelCenter1Dimension[0]) / 2 + $this->scale * 2);
 
@@ -150,7 +148,7 @@ class CINean13 extends CINBarcode1D {
      */
     protected function isDefaultEanLabelEnabled() {
         $label = $this->getLabel();
-        $font  = $this->font;
+        $font = $this->font;
         return $label !== null && $label !== '' && $font !== null && $this->defaultLabel !== null;
     }
 
@@ -205,16 +203,16 @@ class CINean13 extends CINBarcode1D {
         // Odd Position = 3, Even Position = 1
         // Multiply it by the number
         // Add all of that and do 10-(?mod10)
-        $odd                 = true;
+        $odd = true;
         $this->checksumValue = 0;
-        $c                   = strlen($this->text);
+        $c = strlen($this->text);
         for ($i = $c; $i > 0; $i--) {
             if ($odd === true) {
                 $multiplier = 3;
-                $odd        = false;
+                $odd = false;
             } else {
                 $multiplier = 1;
-                $odd        = true;
+                $odd = true;
             }
 
             if (!isset($this->keys[$this->text[$i - 1]])) {
@@ -279,7 +277,7 @@ class CINean13 extends CINBarcode1D {
      * Draws the extended bars on the image.
      *
      * @param resource $im
-     * @param int      $plus
+     * @param int $plus
      */
     protected function drawExtendedBars($im, $plus) {
         $rememberX = $this->positionX;
@@ -312,7 +310,7 @@ class CINean13 extends CINBarcode1D {
      * Inverses the string when the $inverse parameter is equal to 1.
      *
      * @param string $text
-     * @param int    $inverse
+     * @param int $inverse
      * @return string
      */
     private static function inverse($text, $inverse = 1) {
@@ -323,5 +321,4 @@ class CINean13 extends CINBarcode1D {
         return $text;
     }
 }
-
 ?>

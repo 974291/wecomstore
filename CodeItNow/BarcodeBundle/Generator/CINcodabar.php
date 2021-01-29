@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 
@@ -22,8 +20,8 @@ class CINcodabar extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '$', ':', '/', '.', '+', 'A', 'B', 'C', 'D'];
-        $this->code = [    // 0 added to add an extra space
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '$', ':', '/', '.', '+', 'A', 'B', 'C', 'D');
+        $this->code = array(    // 0 added to add an extra space
             '00000110',     /* 0 */
             '00001100',     /* 1 */
             '00010010',     /* 2 */
@@ -44,7 +42,7 @@ class CINcodabar extends CINBarcode1D {
             '01010010',     /* B */
             '00010110',     /* C */
             '00011100'      /* D */
-        ];
+        );
     }
 
     /**
@@ -79,7 +77,7 @@ class CINcodabar extends CINBarcode1D {
      */
     public function getDimension($w, $h) {
         $textLength = 0;
-        $c          = strlen($this->text);
+        $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $index = $this->findIndex($this->text[$i]);
             if ($index !== false) {
@@ -123,5 +121,4 @@ class CINcodabar extends CINBarcode1D {
         parent::validate();
     }
 }
-
 ?>

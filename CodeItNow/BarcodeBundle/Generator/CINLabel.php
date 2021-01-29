@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINArgumentException;
 use CodeItNow\BarcodeBundle\Generator\CINFontPhp;
 use CodeItNow\BarcodeBundle\Generator\CINFontFile;
@@ -41,10 +39,10 @@ class CINLabel {
     /**
      * Constructor.
      *
-     * @param string  $text
+     * @param string $text
      * @param CINFont $font
-     * @param int     $position
-     * @param int     $alignment
+     * @param int $position
+     * @param int $alignment
      */
     public function __construct($text = '', $font = null, $position = self::POSITION_BOTTOM, $alignment = self::ALIGN_CENTER) {
         $font = $font === null ? new CINFontPhp(5) : $font;
@@ -255,8 +253,8 @@ class CINLabel {
         $h = 0;
 
         $dimension = $this->font->getDimension();
-        $w         = $dimension[0];
-        $h         = $dimension[1];
+        $w = $dimension[0];
+        $h = $dimension[1];
 
         if ($this->position === self::POSITION_TOP || $this->position === self::POSITION_BOTTOM) {
             $h += $this->spacing;
@@ -266,7 +264,7 @@ class CINLabel {
             $h += max(0, $this->offset);
         }
 
-        return [$w, $h];
+        return array($w, $h);
     }
 
     /**
@@ -276,10 +274,10 @@ class CINLabel {
      * $x2 and $y2 represent the bottom right corner.
      *
      * @param resource $im
-     * @param int      $x1
-     * @param int      $y1
-     * @param int      $x2
-     * @param int      $y2
+     * @param int $x1
+     * @param int $y1
+     * @param int $x2
+     * @param int $y2
      */
     public /*internal*/ function draw($im, $x1, $y1, $x2, $y2) {
         $x = 0;
@@ -296,7 +294,7 @@ class CINLabel {
 
             if ($this->alignment === self::ALIGN_CENTER) {
                 $x = ($x2 - $x1) / 2 + $x1 - $fontDimension[0] / 2 + $this->offset;
-            } elseif ($this->alignment === self::ALIGN_LEFT) {
+            } elseif ($this->alignment === self::ALIGN_LEFT)  {
                 $x = $x1 + $this->offset;
             } else {
                 $x = $x2 + $this->offset - $fontDimension[0];
@@ -310,7 +308,7 @@ class CINLabel {
 
             if ($this->alignment === self::ALIGN_CENTER) {
                 $y = ($y2 - $y1) / 2 + $y1 - $fontDimension[1] / 2 + $this->offset;
-            } elseif ($this->alignment === self::ALIGN_TOP) {
+            } elseif ($this->alignment === self::ALIGN_TOP)  {
                 $y = $y1 + $this->offset;
             } else {
                 $y = $y2 + $this->offset - $fontDimension[1];
@@ -321,5 +319,4 @@ class CINLabel {
         $this->font->draw($im, $x, $y);
     }
 }
-
 ?>

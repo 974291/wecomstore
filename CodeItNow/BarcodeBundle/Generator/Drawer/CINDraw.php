@@ -6,10 +6,9 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator\Drawer;
 
 abstract class CINDraw {
@@ -39,5 +38,4 @@ abstract class CINDraw {
      */
     abstract public function draw();
 }
-
 ?>

@@ -10,10 +10,9 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
 
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
@@ -21,7 +20,7 @@ use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 use CodeItNow\BarcodeBundle\Generator\CINLabel;
 
 class CINupcext2 extends CINBarcode1D {
-    protected $codeParity = [];
+    protected $codeParity = array();
 
     /**
      * Constructor.
@@ -29,8 +28,8 @@ class CINupcext2 extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        $this->code = [
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $this->code = array(
             '2100',     /* 0 */
             '1110',     /* 1 */
             '1011',     /* 2 */
@@ -41,15 +40,15 @@ class CINupcext2 extends CINBarcode1D {
             '0201',     /* 7 */
             '0102',     /* 8 */
             '2001'      /* 9 */
-        ];
+        );
 
         // Parity, 0=Odd, 1=Even. Depending on ?%4
-        $this->codeParity = [
-            [0, 0],    /* 0 */
-            [0, 1],    /* 1 */
-            [1, 0],    /* 2 */
-            [1, 1]     /* 3 */
-        ];
+        $this->codeParity = array(
+            array(0, 0),    /* 0 */
+            array(0, 1),    /* 1 */
+            array(1, 0),    /* 2 */
+            array(1, 1)     /* 3 */
+        );
     }
 
     /**
@@ -80,8 +79,8 @@ class CINupcext2 extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $startlength     = 4;
-        $textlength      = 2 * 7;
+        $startlength = 4;
+        $textlength = 2 * 7;
         $intercharlength = 2;
 
         $w += $startlength + $textlength + $intercharlength;
@@ -128,7 +127,7 @@ class CINupcext2 extends CINBarcode1D {
      * Inverses the string when the $inverse parameter is equal to 1.
      *
      * @param string $text
-     * @param int    $inverse
+     * @param int $inverse
      * @return string
      */
     private static function inverse($text, $inverse = 1) {
@@ -139,5 +138,4 @@ class CINupcext2 extends CINBarcode1D {
         return $text;
     }
 }
-
 ?>

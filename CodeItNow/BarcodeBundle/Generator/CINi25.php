@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 
@@ -25,8 +23,8 @@ class CINi25 extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-        $this->code = [
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+        $this->code = array(
             '00110',    /* 0 */
             '10001',    /* 1 */
             '01001',    /* 2 */
@@ -37,7 +35,7 @@ class CINi25 extends CINBarcode1D {
             '00011',    /* 7 */
             '10010',    /* 8 */
             '01010'     /* 9 */
-        ];
+        );
 
         $this->setChecksum(false);
         $this->setRatio(2);
@@ -82,7 +80,7 @@ class CINi25 extends CINBarcode1D {
         $c = strlen($temp_text);
         for ($i = 0; $i < $c; $i += 2) {
             $temp_bar = '';
-            $c2       = strlen($this->findCode($temp_text[$i]));
+            $c2 = strlen($this->findCode($temp_text[$i]));
             for ($j = 0; $j < $c2; $j++) {
                 $temp_bar .= substr($this->findCode($temp_text[$i]), $j, 1);
                 $temp_bar .= substr($this->findCode($temp_text[$i + 1]), $j, 1);
@@ -104,8 +102,8 @@ class CINi25 extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $textlength     = (3 + ($this->ratio + 1) * 2) * strlen($this->text);
-        $startlength    = 4;
+        $textlength = (3 + ($this->ratio + 1) * 2) * strlen($this->text);
+        $startlength = 4;
         $checksumlength = 0;
         if ($this->checksum === true) {
             $checksumlength = (3 + ($this->ratio + 1) * 2);
@@ -154,16 +152,16 @@ class CINi25 extends CINBarcode1D {
         // Even Position = 3, Odd Position = 1
         // Multiply it by the number
         // Add all of that and do 10-(?mod10)
-        $even                = true;
+        $even = true;
         $this->checksumValue = 0;
-        $c                   = strlen($this->text);
+        $c = strlen($this->text);
         for ($i = $c; $i > 0; $i--) {
             if ($even === true) {
                 $multiplier = 3;
-                $even       = false;
+                $even = false;
             } else {
                 $multiplier = 1;
-                $even       = true;
+                $even = true;
             }
 
             $this->checksumValue += $this->keys[$this->text[$i - 1]] * $multiplier;
@@ -204,5 +202,4 @@ class CINi25 extends CINBarcode1D {
         return $in;
     }
 }
-
 ?>

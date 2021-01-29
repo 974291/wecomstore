@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINColor;
 use CodeItNow\BarcodeBundle\Generator\CINLabel;
 use CodeItNow\BarcodeBundle\Generator\CINArgumentException;
@@ -24,8 +22,8 @@ abstract class CINBarcode {
     protected $colorFg, $colorBg;       // Color Foreground, Barckground
     protected $scale;                   // Scale of the graphic, default: 1
     protected $offsetX, $offsetY;       // Position where to start the drawing
-    protected $labels = [];        // Array of CINLabel
-    protected $pushLabel = [0, 0]; // Push for the label, left and top
+    protected $labels = array();        // Array of CINLabel
+    protected $pushLabel = array(0, 0); // Push for the label, left and top
 
     /**
      * Constructor.
@@ -148,25 +146,25 @@ abstract class CINBarcode {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $labels       = $this->getBiggestLabels(false);
-        $pixelsAround = [0, 0, 0, 0]; // TRBL
+        $labels = $this->getBiggestLabels(false);
+        $pixelsAround = array(0, 0, 0, 0); // TRBL
         if (isset($labels[CINLabel::POSITION_TOP])) {
-            $dimension       = $labels[CINLabel::POSITION_TOP]->getDimension();
+            $dimension = $labels[CINLabel::POSITION_TOP]->getDimension();
             $pixelsAround[0] += $dimension[1];
         }
 
         if (isset($labels[CINLabel::POSITION_RIGHT])) {
-            $dimension       = $labels[CINLabel::POSITION_RIGHT]->getDimension();
+            $dimension = $labels[CINLabel::POSITION_RIGHT]->getDimension();
             $pixelsAround[1] += $dimension[0];
         }
 
         if (isset($labels[CINLabel::POSITION_BOTTOM])) {
-            $dimension       = $labels[CINLabel::POSITION_BOTTOM]->getDimension();
+            $dimension = $labels[CINLabel::POSITION_BOTTOM]->getDimension();
             $pixelsAround[2] += $dimension[1];
         }
 
         if (isset($labels[CINLabel::POSITION_LEFT])) {
-            $dimension       = $labels[CINLabel::POSITION_LEFT]->getDimension();
+            $dimension = $labels[CINLabel::POSITION_LEFT]->getDimension();
             $pixelsAround[3] += $dimension[0];
         }
 
@@ -182,7 +180,7 @@ abstract class CINBarcode {
                 if ($alignment === CINLabel::ALIGN_TOP) {
                     $pixelsAround[2] = max($pixelsAround[2], $dimension[1] - $finalH);
                 } elseif ($alignment === CINLabel::ALIGN_CENTER) {
-                    $temp            = ceil(($dimension[1] - $finalH) / 2);
+                    $temp = ceil(($dimension[1] - $finalH) / 2);
                     $pixelsAround[0] = max($pixelsAround[0], $temp);
                     $pixelsAround[2] = max($pixelsAround[2], $temp);
                 } elseif ($alignment === CINLabel::ALIGN_BOTTOM) {
@@ -192,7 +190,7 @@ abstract class CINBarcode {
                 if ($alignment === CINLabel::ALIGN_LEFT) {
                     $pixelsAround[1] = max($pixelsAround[1], $dimension[0] - $finalW);
                 } elseif ($alignment === CINLabel::ALIGN_CENTER) {
-                    $temp            = ceil(($dimension[0] - $finalW) / 2);
+                    $temp = ceil(($dimension[0] - $finalW) / 2);
                     $pixelsAround[1] = max($pixelsAround[1], $temp);
                     $pixelsAround[3] = max($pixelsAround[3], $temp);
                 } elseif ($alignment === CINLabel::ALIGN_RIGHT) {
@@ -207,7 +205,7 @@ abstract class CINBarcode {
         $finalW = ($w + $this->offsetX) * $this->scale + $pixelsAround[1] + $pixelsAround[3];
         $finalH = ($h + $this->offsetY) * $this->scale + $pixelsAround[0] + $pixelsAround[2];
 
-        return [$finalW, $finalH];
+        return array($finalW, $finalH);
     }
 
     /**
@@ -274,7 +272,7 @@ abstract class CINBarcode {
      */
     public function removeLabel(CINLabel $label) {
         $remove = -1;
-        $c      = count($this->labels);
+        $c = count($this->labels);
         for ($i = 0; $i < $c; $i++) {
             if ($this->labels[$i] === $label) {
                 $remove = $i;
@@ -291,7 +289,7 @@ abstract class CINBarcode {
      * Clears the labels.
      */
     public function clearLabels() {
-        $this->labels = [];
+        $this->labels = array();
     }
 
     /**
@@ -301,10 +299,10 @@ abstract class CINBarcode {
      * $x2 and $y2 represent the bottom right corner.
      *
      * @param resource $im
-     * @param int      $x1
-     * @param int      $y1
-     * @param int      $x2
-     * @param int      $y2
+     * @param int $x1
+     * @param int $y1
+     * @param int $x2
+     * @param int $y2
      */
     protected function drawText($im, $x1, $y1, $x2, $y2) {
         foreach ($this->labels as $label) {
@@ -320,9 +318,9 @@ abstract class CINBarcode {
      * Draws 1 pixel on the resource at a specific position with a determined color.
      *
      * @param resource $im
-     * @param int      $x
-     * @param int      $y
-     * @param int      $color
+     * @param int $x
+     * @param int $y
+     * @param int $color
      */
     protected function drawPixel($im, $x, $y, $color = self::COLOR_FG) {
         $xR = ($x + $this->offsetX) * $this->scale + $this->pushLabel[0];
@@ -341,11 +339,11 @@ abstract class CINBarcode {
      * Draws an empty rectangle on the resource at a specific position with a determined color.
      *
      * @param resource $im
-     * @param int      $x1
-     * @param int      $y1
-     * @param int      $x2
-     * @param int      $y2
-     * @param int      $color
+     * @param int $x1
+     * @param int $y1
+     * @param int $x2
+     * @param int $y2
+     * @param int $color
      */
     protected function drawRectangle($im, $x1, $y1, $x2, $y2, $color = self::COLOR_FG) {
         if ($this->scale === 1) {
@@ -367,11 +365,11 @@ abstract class CINBarcode {
      * Draws a filled rectangle on the resource at a specific position with a determined color.
      *
      * @param resource $im
-     * @param int      $x1
-     * @param int      $y1
-     * @param int      $x2
-     * @param int      $y2
-     * @param int      $color
+     * @param int $x1
+     * @param int $y1
+     * @param int $x2
+     * @param int $y2
+     * @param int $color
      */
     protected function drawFilledRectangle($im, $x1, $y1, $x2, $y2, $color = self::COLOR_FG) {
         if ($x1 > $x2) { // Swap
@@ -394,7 +392,7 @@ abstract class CINBarcode {
      * Allocates the color based on the integer.
      *
      * @param resource $im
-     * @param int      $color
+     * @param int $color
      * @return resource
      */
     protected function getColor($im, $color) {
@@ -415,12 +413,12 @@ abstract class CINBarcode {
         $searchLR = $reversed ? 1 : 0;
         $searchTB = $reversed ? 0 : 1;
 
-        $labels = [];
+        $labels = array();
         foreach ($this->labels as $label) {
             $position = $label->getPosition();
             if (isset($labels[$position])) {
                 $savedDimension = $labels[$position]->getDimension();
-                $dimension      = $label->getDimension();
+                $dimension = $label->getDimension();
                 if ($position === CINLabel::POSITION_LEFT || $position === CINLabel::POSITION_RIGHT) {
                     if ($dimension[$searchLR] > $savedDimension[$searchLR]) {
                         $labels[$position] = $label;
@@ -438,5 +436,4 @@ abstract class CINBarcode {
         return $labels;
     }
 }
-
 ?>

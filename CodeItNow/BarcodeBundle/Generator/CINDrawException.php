@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use Exception;
 
 class CINDrawException extends Exception {
@@ -24,5 +22,4 @@ class CINDrawException extends Exception {
         parent::__construct($message, 30000);
     }
 }
-
 ?>

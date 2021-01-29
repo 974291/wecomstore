@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 
@@ -26,8 +24,8 @@ class CINcode39 extends CINBarcode1D {
         parent::__construct();
 
         $this->starting = $this->ending = 43;
-        $this->keys     = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-', '.', ' ', '$', '/', '+', '%', '*'];
-        $this->code     = [    // 0 added to add an extra space
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-', '.', ' ', '$', '/', '+', '%', '*');
+        $this->code = array(    // 0 added to add an extra space
             '0001101000',   /* 0 */
             '1001000010',   /* 1 */
             '0011000010',   /* 2 */
@@ -72,7 +70,7 @@ class CINcode39 extends CINBarcode1D {
             '0100010100',   /* + */
             '0001010100',   /* % */
             '0100101000'    /* * */
-        ];
+        );
 
         $this->setChecksum(false);
     }
@@ -105,7 +103,7 @@ class CINcode39 extends CINBarcode1D {
         $this->drawChar($im, $this->code[$this->starting], true);
 
         // Chars
-        $c = strlen($this->text);
+        $c =  strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $this->drawChar($im, $this->findCode($this->text[$i]), true);
         }
@@ -129,8 +127,8 @@ class CINcode39 extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $textlength     = 13 * strlen($this->text);
-        $startlength    = 13;
+        $textlength = 13 * strlen($this->text);
+        $startlength = 13;
         $checksumlength = 0;
         if ($this->checksum === true) {
             $checksumlength = 13;
@@ -171,7 +169,7 @@ class CINcode39 extends CINBarcode1D {
      */
     protected function calculateChecksum() {
         $this->checksumValue = 0;
-        $c                   = strlen($this->text);
+        $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $this->checksumValue += $this->findIndex($this->text[$i]);
         }
@@ -194,5 +192,4 @@ class CINcode39 extends CINBarcode1D {
         return false;
     }
 }
-
 ?>

@@ -12,10 +12,9 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
 
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
@@ -137,11 +136,11 @@ class CINisbn extends CINean13 {
                 $lastCharacter = '';
                 if ($c === 13) {
                     $lastCharacter = $this->text[12];
-                    $this->text    = substr($this->text, 0, 12);
+                    $this->text = substr($this->text, 0, 12);
                 }
 
                 $checksum = $this->processChecksum();
-                $isbn     = 'ISBN ' . substr($this->text, 0, 3) . '-' . substr($this->text, 3, 9) . '-' . $checksum;
+                $isbn = 'ISBN ' . substr($this->text, 0, 3) . '-' . substr($this->text, 3, 9) . '-' . $checksum;
 
                 // Put the last character back
                 if ($c === 13) {
@@ -165,5 +164,4 @@ class CINisbn extends CINean13 {
         return $isbn;
     }
 }
-
 ?>

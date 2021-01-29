@@ -10,12 +10,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 
@@ -26,7 +24,7 @@ class CINothercode extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
     }
 
     /**
@@ -62,7 +60,7 @@ class CINothercode extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $array      = str_split($this->text, 1);
+        $array = str_split($this->text, 1);
         $textlength = array_sum($array) + count($array);
 
         $w += $textlength;
@@ -89,5 +87,4 @@ class CINothercode extends CINBarcode1D {
         parent::validate();
     }
 }
-
 ?>

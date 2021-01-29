@@ -6,12 +6,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator   
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
 
@@ -22,8 +20,8 @@ class CINcode11 extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-'];
-        $this->code = [    // 0 added to add an extra space
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-');
+        $this->code = array(    // 0 added to add an extra space
             '000010',   /* 0 */
             '100010',   /* 1 */
             '010010',   /* 2 */
@@ -35,7 +33,7 @@ class CINcode11 extends CINBarcode1D {
             '100100',   /* 8 */
             '100000',   /* 9 */
             '001000'    /* - */
-        ];
+        );
     }
 
     /**
@@ -76,7 +74,7 @@ class CINcode11 extends CINBarcode1D {
         $startlength = 8;
 
         $textlength = 0;
-        $c          = strlen($this->text);
+        $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $textlength += $this->getIndexLength($this->findIndex($this->text[$i]));
         }
@@ -129,9 +127,9 @@ class CINcode11 extends CINBarcode1D {
         // Second CheckSUM "K"
         // Same as CheckSUM "C" but we count the CheckSum "C" at the end
         // After 9, the sequence wraps around back to 1.
-        $sequence_multiplier = [10, 9];
-        $temp_text           = $this->text;
-        $this->checksumValue = [];
+        $sequence_multiplier = array(10, 9);
+        $temp_text = $this->text;
+        $this->checksumValue = array();
         for ($z = 0; $z < 2; $z++) {
             $c = strlen($temp_text);
 
@@ -151,7 +149,7 @@ class CINcode11 extends CINBarcode1D {
             }
 
             $this->checksumValue[$z] = $checksum % 11;
-            $temp_text               .= $this->keys[$this->checksumValue[$z]];
+            $temp_text .= $this->keys[$this->checksumValue[$z]];
         }
     }
 
@@ -165,7 +163,7 @@ class CINcode11 extends CINBarcode1D {
 
         if ($this->checksumValue !== false) {
             $ret = '';
-            $c   = count($this->checksumValue);
+            $c = count($this->checksumValue);
             for ($i = 0; $i < $c; $i++) {
                 $ret .= $this->keys[$this->checksumValue[$i]];
             }
@@ -186,5 +184,4 @@ class CINcode11 extends CINBarcode1D {
         return $length;
     }
 }
-
 ?>

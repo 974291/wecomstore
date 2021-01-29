@@ -6,10 +6,9 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
 
 class CINColor {
@@ -29,7 +28,7 @@ class CINColor {
      */
     public function __construct() {
         $args = func_get_args();
-        $c    = count($args);
+        $c = count($args);
         if ($c === 3) {
             $this->r = intval($args[0]);
             $this->g = intval($args[1]);
@@ -114,7 +113,7 @@ class CINColor {
      * @param string $default
      */
     public static function getColor($code, $default = 'white') {
-        switch (strtolower($code)) {
+        switch(strtolower($code)) {
             case '':
             case 'white':
                 return 0xffffff;
@@ -155,5 +154,4 @@ class CINColor {
         }
     }
 }
-
 ?>

@@ -13,12 +13,10 @@
  *
  *--------------------------------------------------------------------
  * @author  Akhtar Khan <er.akhtarkhan@gmail.com>
- * @link    http://www.codeitnow.in
- * @package https://github.com/codeitnowin/barcode-generator
+ * @link http://www.codeitnow.in
+ * @package https://github.com/codeitnowin/barcode-generator  
  */
-
 namespace CodeItNow\BarcodeBundle\Generator;
-
 use CodeItNow\BarcodeBundle\Generator\CINParseException;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode;
 use CodeItNow\BarcodeBundle\Generator\CINBarcode1D;
@@ -34,11 +32,11 @@ class CINean8 extends CINBarcode1D {
     public function __construct() {
         parent::__construct();
 
-        $this->keys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
         // Left-Hand Odd Parity starting with a space
         // Right-Hand is the same of Left-Hand starting with a bar
-        $this->code = [
+        $this->code = array(
             '2100',     /* 0 */
             '1110',     /* 1 */
             '1011',     /* 2 */
@@ -49,7 +47,7 @@ class CINean8 extends CINBarcode1D {
             '0201',     /* 7 */
             '0102',     /* 8 */
             '2001'      /* 9 */
-        ];
+        );
     }
 
     /**
@@ -96,10 +94,10 @@ class CINean8 extends CINBarcode1D {
      * @return int[]
      */
     public function getDimension($w, $h) {
-        $startlength  = 3;
+        $startlength = 3;
         $centerlength = 5;
-        $textlength   = 8 * 7;
-        $endlength    = 3;
+        $textlength = 8 * 7;
+        $endlength = 3;
 
         $w += $startlength + $centerlength + $textlength + $endlength;
         $h += $this->thickness;
@@ -113,13 +111,13 @@ class CINean8 extends CINBarcode1D {
         if ($this->isDefaultEanLabelEnabled()) {
             $this->processChecksum();
             $label = $this->getLabel();
-            $font  = $this->font;
+            $font = $this->font;
 
-            $this->labelLeft    = new CINLabel(substr($label, 0, 4), $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
+            $this->labelLeft = new CINLabel(substr($label, 0, 4), $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
             $labelLeftDimension = $this->labelLeft->getDimension();
             $this->labelLeft->setOffset(($this->scale * 30 - $labelLeftDimension[0]) / 2 + $this->scale * 2);
 
-            $this->labelRight    = new CINLabel(substr($label, 4, 3) . $this->keys[$this->checksumValue], $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
+            $this->labelRight = new CINLabel(substr($label, 4, 3) . $this->keys[$this->checksumValue], $font, CINLabel::POSITION_BOTTOM, CINLabel::ALIGN_LEFT);
             $labelRightDimension = $this->labelRight->getDimension();
             $this->labelRight->setOffset(($this->scale * 30 - $labelRightDimension[0]) / 2 + $this->scale * 34);
 
@@ -135,7 +133,7 @@ class CINean8 extends CINBarcode1D {
      */
     protected function isDefaultEanLabelEnabled() {
         $label = $this->getLabel();
-        $font  = $this->font;
+        $font = $this->font;
         return $label !== null && $label !== '' && $font !== null && $this->defaultLabel !== null;
     }
 
@@ -175,16 +173,16 @@ class CINean8 extends CINBarcode1D {
         // Odd Position = 3, Even Position = 1
         // Multiply it by the number
         // Add all of that and do 10-(?mod10)
-        $odd                 = true;
+        $odd = true;
         $this->checksumValue = 0;
-        $c                   = strlen($this->text);
+        $c = strlen($this->text);
         for ($i = $c; $i > 0; $i--) {
             if ($odd === true) {
                 $multiplier = 3;
-                $odd        = false;
+                $odd = false;
             } else {
                 $multiplier = 1;
-                $odd        = true;
+                $odd = true;
             }
 
             if (!isset($this->keys[$this->text[$i - 1]])) {
@@ -216,7 +214,7 @@ class CINean8 extends CINBarcode1D {
      * Draws the extended bars on the image.
      *
      * @param resource $im
-     * @param int      $plus
+     * @param int $plus
      */
     private function drawExtendedBars($im, $plus) {
         $rememberX = $this->positionX;
@@ -245,5 +243,4 @@ class CINean8 extends CINBarcode1D {
         $this->thickness = $rememberH;
     }
 }
-
 ?>
