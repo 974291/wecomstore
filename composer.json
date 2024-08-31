@@ -1,5 +1,6 @@
 {
     "name": "wecomstore/wecomstore-barcode",
+    "version": "1.0.0",
     "description": "The WecomStore Barcode Package",
     "license": "AGPL-3.0",
     "authors": [
